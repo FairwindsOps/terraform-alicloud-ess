@@ -112,3 +112,12 @@ variable "ess_blue_image_regex" {
   default = "^centos_6\\w{1,5}[64].*"
 }
 
+variable "ess_blue_user_data" {
+  description = "user data to use for blue scaling config"
+  default = ""
+}
+
+variable "ess_green_user_data" {
+  description = "user data to use for green scaling config"
+  default = ""
+}

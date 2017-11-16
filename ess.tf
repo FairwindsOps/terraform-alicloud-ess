@@ -41,7 +41,7 @@ resource "alicloud_ess_scaling_configuration" "esg-greenconfig" {
   image_id                    = "${data.alicloud_images.green_image.images.0.id}"
   instance_type               = "${var.ess_instance_type}"
   security_group_id           = "${var.ess_sg_id}"
-#  force_delete                = true
+  user_data                   = "${var.ess_green_user_data}"
 }
 
 resource "alicloud_ess_scaling_configuration" "esg-blueconfig" {
@@ -53,6 +53,7 @@ resource "alicloud_ess_scaling_configuration" "esg-blueconfig" {
   image_id                    = "${data.alicloud_images.blue_image.images.0.id}"
   instance_type               = "${var.ess_instance_type}"
   security_group_id           = "${var.ess_sg_id}"
+  user_data                   = "${var.ess_blue_user_data}"
 }
 
 resource "alicloud_ess_scaling_rule" "scaleup" {
