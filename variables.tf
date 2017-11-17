@@ -102,6 +102,11 @@ variable "ess_vswitch_ids" {
   description = "vswitches to create ess groups in"
 }
 
+variable "ess_vswitch_names" {
+  type = "list"
+  description = "vswitch names"
+}
+
 variable "ess_deployment" {
   description = "blue/green deployment to make active"
   default = "green"
