@@ -131,3 +131,9 @@ variable "ess_keyname" {
   description = "ssh keypair name to use for ess config"
   default = ""
 }
+
+variable "ess_tags" {
+  type = map
+  description = "tags to apply to ess instances"
+  default = {}
+}

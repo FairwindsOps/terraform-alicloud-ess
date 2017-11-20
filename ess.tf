@@ -45,6 +45,7 @@ resource "alicloud_ess_scaling_configuration" "esg-greenconfig" {
   security_group_id           = "${var.ess_sg_id}"
   user_data                   = "${var.ess_green_user_data}"
   key_name                    = "${var.ess_keyname}"
+#  tags                        = "${merge(map("deployment", "green"), var.ess_tags}"
   substitute                  = "${element(alicloud_ess_scaling_configuration.esg-blueconfig.*.id, count.index)}"
 }
 
@@ -60,6 +61,7 @@ resource "alicloud_ess_scaling_configuration" "esg-blueconfig" {
   security_group_id           = "${var.ess_sg_id}"
   user_data                   = "${var.ess_blue_user_data}"
   key_name                    = "${var.ess_keyname}"
+  tags                        = "${merge(map("deployment", "blue"), var.ess_tags}"
 #  substitute                  = "${element(alicloud_ess_scaling_configuration.esg-greenconfig.*.id, count.index)}"
 }
 
