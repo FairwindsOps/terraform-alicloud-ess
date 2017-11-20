@@ -133,7 +133,6 @@ variable "ess_keyname" {
 }
 
 variable "ess_tags" {
-  type = map
   description = "tags to apply to ess instances"
   default = {}
 }
