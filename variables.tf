@@ -126,3 +126,8 @@ variable "ess_green_user_data" {
   description = "user data to use for green scaling config"
   default = ""
 }
+
+variable "ess_keyname" {
+  description = "ssh keypair name to use for ess config"
+  default = ""
+}
