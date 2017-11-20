@@ -23,6 +23,7 @@ data "alicloud_images" "blue_image" {
 }
 
 resource "alicloud_ess_scaling_group" "esg" {
+  provider           = "alicloud.${var.alicloud_region}"
   count              = "${var.az_count}"
   vswitch_id         = "${element(var.ess_vswitch_ids, count.index)}" 
   min_size           = "${var.ess_scaling_min_size}"
@@ -33,6 +34,7 @@ resource "alicloud_ess_scaling_group" "esg" {
 }
 
 resource "alicloud_ess_scaling_configuration" "esg-greenconfig" {
+  provider           = "alicloud.${var.alicloud_region}"
   count                       = "${var.az_count}"
   scaling_configuration_name  = "${var.ess_scaling_config_name}-green"          
   scaling_group_id            = "${element(alicloud_ess_scaling_group.esg.*.id, count.index)}"
@@ -45,6 +47,7 @@ resource "alicloud_ess_scaling_configuration" "esg-greenconfig" {
 }
 
 resource "alicloud_ess_scaling_configuration" "esg-blueconfig" {
+  provider           = "alicloud.${var.alicloud_region}"
   count                       = "${var.az_count}"
   scaling_configuration_name  = "${var.ess_scaling_config_name}-blue"
   scaling_group_id            = "${element(alicloud_ess_scaling_group.esg.*.id, count.index)}"
@@ -57,6 +60,7 @@ resource "alicloud_ess_scaling_configuration" "esg-blueconfig" {
 }
 
 resource "alicloud_ess_scaling_rule" "scaleup" {
+  provider           = "alicloud.${var.alicloud_region}"
   count             = "${var.az_count}"
   scaling_rule_name = "ScaleUp"
   scaling_group_id  = "${element(alicloud_ess_scaling_group.esg.*.id, count.index)}"
@@ -66,6 +70,7 @@ resource "alicloud_ess_scaling_rule" "scaleup" {
 }
 
 resource "alicloud_ess_scaling_rule" "scaledown" {
+  provider           = "alicloud.${var.alicloud_region}"
   count             = "${var.az_count}"
   scaling_rule_name = "ScaleDown"
   scaling_group_id  = "${element(alicloud_ess_scaling_group.esg.*.id, count.index)}"
