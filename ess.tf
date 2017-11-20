@@ -59,9 +59,8 @@ resource "alicloud_ess_scaling_configuration" "esg-blueconfig" {
   instance_type               = "${var.ess_instance_type}"
   security_group_id           = "${var.ess_sg_id}"
   user_data                   = "${var.ess_blue_user_data}"
-  key_name                    = "${var.ess_keyname}"
-  substitute                  = "${element(alicloud_ess_scaling_configuration.esg-greenconfig.*.id, count.index)}"
-
+#  key_name                    = "${var.ess_keyname}"
+#  substitute                  = "${element(alicloud_ess_scaling_configuration.esg-greenconfig.*.id, count.index)}"
 }
 
 resource "alicloud_ess_scaling_rule" "scaleup" {
