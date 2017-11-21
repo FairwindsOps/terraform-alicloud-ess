@@ -58,7 +58,7 @@ variable "ess_instance_type" {
   default = "ecs.n4.large"
 }
 
-variable "ess_green_image_name_regex" {
+variable "ess_image_name_regex" {
   description = "regex to match against for image name used in ess"
   default     = "^centos_6\\w{1,5}[64].*"
 }
@@ -107,22 +107,7 @@ variable "ess_vswitch_names" {
   description = "vswitch names"
 }
 
-variable "ess_deployment" {
-  description = "blue/green deployment to make active"
-  default = "green"
-}
-
-variable "ess_blue_image_regex" {
-  description = "regex to match for images in the blue deployment"
-  default = "^centos_6\\w{1,5}[64].*"
-}
-
-variable "ess_blue_user_data" {
-  description = "user data to use for blue scaling config"
-  default = ""
-}
-
-variable "ess_green_user_data" {
+variable "ess_user_data" {
   description = "user data to use for green scaling config"
   default = ""
 }

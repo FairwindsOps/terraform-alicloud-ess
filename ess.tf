@@ -12,14 +12,9 @@
 #See the License for the specific language governing permissions and
 #limitations under the License.
 
-data "alicloud_images" "green_image" {
+data "alicloud_images" "ess_image" {
   most_recent = true
-  name_regex = "${var.ess_green_image_name_regex}"
-}
-
-data "alicloud_images" "blue_image" {
-  most_recent = true
-  name_regex = "${var.ess_blue_image_regex}"
+  name_regex = "${var.ess_image_name_regex}"
 }
 
 resource "alicloud_ess_scaling_group" "esg" {
@@ -33,35 +28,19 @@ resource "alicloud_ess_scaling_group" "esg" {
   loadbalancer_ids   = [ "${var.ess_loadbalancer_ids}" ]
 }
 
-resource "alicloud_ess_scaling_configuration" "esg-greenconfig" {
+resource "alicloud_ess_scaling_configuration" "esg-config" {
+  lifecycle { create_before_destroy = true }
   provider                    = "alicloud.${var.alicloud_region}"
   count                       = "${var.az_count}"
-  scaling_configuration_name  = "${var.ess_scaling_config_name}-green"          
   scaling_group_id            = "${element(alicloud_ess_scaling_group.esg.*.id, count.index)}"
-  active                      = "${var.ess_deployment == "blue" ? false : true}"
+  active                      = true
   enable                      = true
   image_id                    = "${data.alicloud_images.green_image.images.0.id}"
   instance_type               = "${var.ess_instance_type}"
   security_group_id           = "${var.ess_sg_id}"
-  user_data                   = "${var.ess_green_user_data}"
+  user_data                   = "${var.ess_user_data}"
   key_name                    = "${var.ess_keyname}"
-  tags                        = "${merge(map("deployment", "green"), var.ess_tags)}"
-  force_delete                = true
-}
-
-resource "alicloud_ess_scaling_configuration" "esg-blueconfig" {
-  provider           = "alicloud.${var.alicloud_region}"
-  count                       = "${var.az_count}"
-  scaling_configuration_name  = "${var.ess_scaling_config_name}-blue"
-  scaling_group_id            = "${element(alicloud_ess_scaling_group.esg.*.id, count.index)}"
-  active                      = "${var.ess_deployment == "blue" ? true : false}"
-  enable                      = true
-  image_id                    = "${data.alicloud_images.blue_image.images.0.id}"
-  instance_type               = "${var.ess_instance_type}"
-  security_group_id           = "${var.ess_sg_id}"
-  user_data                   = "${var.ess_blue_user_data}"
-  key_name                    = "${var.ess_keyname}"
-  tags                        = "${merge(map("deployment", "blue"), var.ess_tags)}"
+  tags                        = "${var.ess_tags}"
   force_delete                = true
 }
 
@@ -83,4 +62,22 @@ resource "alicloud_ess_scaling_rule" "scaledown" {
   adjustment_type   = "QuantityChangeInCapacity"
   adjustment_value  = "${var.ess_scaledown_size}"
   cooldown          = "${var.ess_scaledown_cooldown}"
+}
+
+resource "alicloud_ess_scaling_rule" "doublecapacity" {
+  provider          = "alicloud.${var.alicloud_region}"
+  count             = "${var.az_count}"
+  scaling_rule_name = "ScaleUp100pct"
+  scaling_group_id  = "${element(alicloud_ess_scaling_group.esg.*.id, count.index)}"
+  adjustment_type   = "PercentChangeInCapacity"
+  adjustment_value  = 100
+}
+
+resource "alicloud_ess_scaling_rule" "halfcapacity" {
+  provider          = "alicloud.${var.alicloud_region}"
+  count             = "${var.az_count}"
+  scaling_rule_name = "ScaleDown50pct"
+  scaling_group_id  = "${element(alicloud_ess_scaling_group.esg.*.id, count.index)}"
+  adjustment_type   = "PercentChangeInCapacity"
+  adjustment_value  = -50
 }
