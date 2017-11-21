@@ -35,7 +35,7 @@ resource "alicloud_ess_scaling_configuration" "esg-config" {
   scaling_group_id            = "${element(alicloud_ess_scaling_group.esg.*.id, count.index)}"
   active                      = true
   enable                      = true
-  image_id                    = "${data.alicloud_images.green_image.images.0.id}"
+  image_id                    = "${data.alicloud_images.ess_image.images.0.id}"
   instance_type               = "${var.ess_instance_type}"
   security_group_id           = "${var.ess_sg_id}"
   user_data                   = "${var.ess_user_data}"
