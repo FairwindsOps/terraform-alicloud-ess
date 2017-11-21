@@ -25,7 +25,7 @@ resource "alicloud_ess_scaling_group" "esg" {
   max_size           = "${var.ess_scaling_max_size}"
   scaling_group_name = "${var.ess_scaling_group_name}-${element(var.ess_vswitch_names, count.index)}"
   removal_policies   = "${var.ess_removal_policies}"
-  loadbalancer_ids   = "${var.ess_loadbalancer_ids}" 
+  loadbalancer_ids   = ["${var.ess_loadbalancer_ids}" ]
 }
 
 resource "alicloud_ess_scaling_configuration" "esg-config" {
