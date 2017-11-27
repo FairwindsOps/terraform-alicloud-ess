@@ -122,12 +122,7 @@ variable "ess_tags" {
   default = {}
 }
 
-variable "ess_datadiskblock" {
-  description = "data disk for ecs instances"
-  default = {
-      size   =      "80"
-      device =      "/dev/xvdb"
-      active =      true
-      enable =      true
-    }
+variable "ess_datadisk_snap_id" {
+  description = "snapshot of data disk for ecs instances"
+  default = ""
 }

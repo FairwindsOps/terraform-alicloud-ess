@@ -41,7 +41,14 @@ resource "alicloud_ess_scaling_configuration" "esg-config" {
   user_data                   = "${var.ess_user_data}"
   key_name                    = "${var.ess_keyname}"
   tags                        = "${var.ess_tags}"
-  data_disk                   = "${list(var.ess_datadiskblock)}" 
+  data_disk                   = [
+    {
+      snapshot_id = "${var.ess_datadisk_snap_id}"
+      device =      "/dev/xvdb"
+      active =      true
+      enable =      true
+    }
+  ]
   force_delete                = true
 }
 
