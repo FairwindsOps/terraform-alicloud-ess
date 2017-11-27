@@ -44,6 +44,7 @@ resource "alicloud_ess_scaling_configuration" "esg-config" {
   data_disk                   = [
     {
       snapshot_id = "${var.ess_datadisk_snap_id}"
+      category = "ephemeral"
     }
   ]
   force_delete                = true
