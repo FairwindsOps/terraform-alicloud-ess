@@ -41,6 +41,7 @@ resource "alicloud_ess_scaling_configuration" "esg-config" {
   user_data                   = "${var.ess_user_data}"
   key_name                    = "${var.ess_keyname}"
   tags                        = "${var.ess_tags}"
+  data_disk                   = "${var.ess_datadiskblock}"
   force_delete                = true
 }
 
