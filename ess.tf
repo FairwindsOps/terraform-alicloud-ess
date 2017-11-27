@@ -44,9 +44,6 @@ resource "alicloud_ess_scaling_configuration" "esg-config" {
   data_disk                   = [
     {
       snapshot_id = "${var.ess_datadisk_snap_id}"
-      device =      "/dev/xvdb"
-      active =      true
-      enable =      true
     }
   ]
   force_delete                = true
