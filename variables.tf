@@ -68,7 +68,7 @@ variable "ess_loadbalancer_ids" {
   default     = []
 }
 
-variable "ess_scalup_cooldown" {
+variable "ess_scaleup_cooldown" {
   description = "cooldown period for scaleup rule"
   default     = 300
 }

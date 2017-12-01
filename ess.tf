@@ -57,7 +57,7 @@ resource "alicloud_ess_scaling_rule" "scaleup" {
   scaling_group_id  = "${element(alicloud_ess_scaling_group.esg.*.id, count.index)}"
   adjustment_type   = "QuantityChangeInCapacity"
   adjustment_value  = "${var.ess_scaleup_size}"
-  cooldown          = "${var.ess_scalup_cooldown}"
+  cooldown          = "${var.ess_scaleup_cooldown}"
 }
 
 resource "alicloud_ess_scaling_rule" "scaledown" {
@@ -77,6 +77,7 @@ resource "alicloud_ess_scaling_rule" "doublecapacity" {
   scaling_group_id  = "${element(alicloud_ess_scaling_group.esg.*.id, count.index)}"
   adjustment_type   = "PercentChangeInCapacity"
   adjustment_value  = 100
+  cooldown          = "${var.ess_scaleup_cooldown}"
 }
 
 resource "alicloud_ess_scaling_rule" "halfcapacity" {
@@ -86,4 +87,5 @@ resource "alicloud_ess_scaling_rule" "halfcapacity" {
   scaling_group_id  = "${element(alicloud_ess_scaling_group.esg.*.id, count.index)}"
   adjustment_type   = "PercentChangeInCapacity"
   adjustment_value  = -50
+  cooldown          = "${var.ess_scaledown_cooldown}"
 }
