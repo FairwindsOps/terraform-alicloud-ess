@@ -29,7 +29,11 @@ resource "alicloud_ess_scaling_group" "esg" {
 }
 
 resource "alicloud_ess_scaling_configuration" "esg-config" {
-  lifecycle { create_before_destroy = true }
+  lifecycle { 
+              create_before_destroy = true
+              ignore_changes        = ["scaling_configuration_name"]
+	    }
+  scaling_configuration_name  = "${timestamp()}"
   provider                    = "alicloud.${var.alicloud_region}"
   count                       = "${var.az_count}"
   scaling_group_id            = "${element(alicloud_ess_scaling_group.esg.*.id, count.index)}"
