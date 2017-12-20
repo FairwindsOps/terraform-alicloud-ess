@@ -84,7 +84,7 @@ variable "ess_scaling_group_name" {
 
 variable "ess_scaling_config_name" {
   description = "name of the scaling config to create"
-  default     = "tf-scalingconfig"
+  default     = "tf-ess-config"
 }
 
 variable "ess_scaleup_size" {

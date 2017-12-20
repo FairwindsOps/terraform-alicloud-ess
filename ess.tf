@@ -33,7 +33,7 @@ resource "alicloud_ess_scaling_configuration" "esg-config" {
               create_before_destroy = true
               ignore_changes        = ["scaling_configuration_name"]
 	    }
-  scaling_configuration_name  = "${timestamp()}"
+  scaling_configuration_name  = "${var.ess_scaling_config_name}"
   provider                    = "alicloud.${var.alicloud_region}"
   count                       = "${var.az_count}"
   scaling_group_id            = "${element(alicloud_ess_scaling_group.esg.*.id, count.index)}"
